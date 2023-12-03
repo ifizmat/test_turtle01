@@ -25,6 +25,21 @@ class Row_Squares():
     amount: int = 0
     interval: int = 0
 
+@dataclass
+class Matrix_Squares():
+    """Data type Matrix of Squares"""
+    x: int = 0
+    y: int = 0
+    row: Row_Squares = field(default = Row_Squares)
+    amount_rows: int = 0
+    interval_rows: int = 0
+
+def draw_matrix(turt: turtle.Turtle, matrix: Matrix_Squares):
+    turt.goto(matrix.x, matrix.y)
+    for index_row in range(matrix.amount_rows):
+        matrix.y = matrix.row.y - index_row * (matrix.interval_rows + matrix.row.square.size)
+        draw_row(turt, matrix.row)
+
 def draw_row(turt: turtle.Turtle, row: Row_Squares):
     turt.goto(row.x, row.y)
     for col in range(row.amount):
@@ -35,7 +50,7 @@ def draw_row(turt: turtle.Turtle, row: Row_Squares):
             row.square.fill_color = "white"
         
         row.square.x = row.x + col * (row.interval + row.square.size)
-        row.square.y = 0
+        row.square.y = row.y
         draw_square(turt, row.square)
 
 def draw_square(turt: turtle.Turtle, square: Square):
@@ -57,7 +72,7 @@ if __name__ == "__main__":
     scr = turtle.Screen()
 
     square1 = Square(0, 0, 20)
-    square2 = Square(x = -100, y = -50, size = 8, fill_color = "white")
+    square2 = Square(x = -100, y = -50, size = 70, fill_color = "white")
 
     scr.setup(1440, 780, 1, 0)
     tr.hideturtle()
@@ -65,6 +80,15 @@ if __name__ == "__main__":
 
     draw_square(tr, square1)
     draw_square(tr, square2)
-    row = Row_Squares(x = -50, y = 0, square = square2, amount = 15, interval = 2)    
-    draw_row(tr, row)
+    row1 = Row_Squares(x = -550, y = -100, square = square2, amount = 15, interval = 2)
+    row2 = Row_Squares(x = -600, y = 350, square = square2, amount = 17, interval = 5)
+    matrix1 = Matrix_Squares(x = -600, y = 400, row = row1, amount_rows = 3, interval_rows = 5)
+    # draw_matrix(tr, matrix1)
+    # draw_row(tr, row1)
+    # draw_row(tr, row2)
+    d = 4
+    y0 = 350
+    for i in range(3):
+        rowi = Row_Squares(x = -550, y = y0 - i * (6 + square2.size), square = square2, amount = 15, interval = 2)
+        draw_row(tr, rowi)
     turtle.done()
