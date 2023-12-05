@@ -12,3 +12,6 @@ print(f"num_bin: {num_bin}")
 
 num_bin = num_bin[2:]
 print(f"num_bin: {num_bin}")
+
+for index, bit in enumerate(num_bin):
+    print(f"{index:2} - bit: {bit}")
